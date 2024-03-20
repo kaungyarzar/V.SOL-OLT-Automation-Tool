@@ -4,10 +4,12 @@ VSOL OLT EMS Management Tool. Such as like creating profiles and other device se
 
 `version: 0.1.0-b3`
 
+V.SOL OLT Website: https://www.vsolcn.com/products/olt
+
 ## Requirements
 
 - python ^3.8
-- python-poetry 
+- python-poetry
 
 ## Tested Software/Hardware Version
 - V2.3.0R/V2.1.8
@@ -52,13 +54,6 @@ volt-cli apply-config <olt-configs.yml> <olt-mac>
 ```
 
 ## Helper Tools
-
-### Generate Config Files base on env (prod, stag)
-```
-cd scripts/profile_generators
-cd prod/ && ./render_prod.sh <output dir> # production env
-cd staging/ && ./render_qa.sh <output dir> # staging env
-```
 
 ### Apply Multiple Config Files
 ```
