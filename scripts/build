@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+poetry build
+echo "Python distribution packages created (dist/)"

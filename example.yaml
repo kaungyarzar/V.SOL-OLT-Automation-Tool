@@ -1,0 +1,108 @@
+# VSOL OLT Profile Config YAML
+---
+profiles:
+  onu_profile:
+    new_profiles:
+      - profile_name: profile_one
+        description: This is onu profile one
+        max_tcont: 8
+        max_gemport: 32
+      - profile_name: profile_two
+        description: This is onu profile two
+        max_tcont: 10
+        max_gemport: 20
+
+    # delete_profile:
+    #   - profile_name: profile_one
+    #   - profile_name: profile_two
+
+  dba_profile:
+    new_profiles:
+      - profile_name: dba_one
+        profile_type: 4 # type [1-5]
+        fixed: 10000 # Kbps
+
+      - profile_name: dba_two
+        profile_type: 3 # type [1-5]
+        fixed: 100000 # Kbps
+
+    # delete_profile:
+    #   - profile_name: dba_one
+    #   - profile_name: dba_two
+
+  traffic_profile:
+    new_profiles:
+      - profile_name: tra_profile_one
+        sir: 20480 # Kbps
+        pir: 20480 # Kbps
+        cbs: 1024 # Kbytes
+        pbs: 1024 # Kbytes
+
+      - profile_name: tra_profile_two
+        sir: 40960 # Kbps
+        pir: 40960 # Kbps
+        cbs: 1024 # Kbytes
+        pbs: 1024 # Kbytes
+
+    # delete_profile:
+    #   - profile_name: tra_profile_one
+    #   - profile_name: tra_profile_two
+
+  line_profile:
+    new_profiles:
+      - profile_name: line_profile_one
+        tcont:
+          - tcont_name: tc_plus_plan1
+            tcont_id: 1
+            dba_profile_name: dba_profile_one
+          - tcont_name: tc_no_shape
+            tcont_id: 2
+            dba_profile_name: default
+        gemport:
+          - tcont_id: 1
+            gemport_name: G29
+            gemport_id: 1
+            upstream_traffic_profile_name: traffic_profile_one
+            downstream_traffic_profile_name: tra_profile_one
+          - tcont_id: 2
+            gemport_name: G39
+            gemport_id: 2
+            upstream_traffic_profile_name: default
+            downstream_traffic_profile_name: default
+          - tcont_id: 3
+            gemport_name: G99
+            gemport_id: 3
+            upstream_traffic_profile_name: default
+            downstream_traffic_profile_name: default
+        service:
+          - service_name: S29
+            gemport_id: 1
+            vlan_mode: Tag # Tag/Untag
+            vlan_list: 29
+          - service_name: S39
+            gemport_id: 2
+            vlan_mode: Tag # Tag/Untag
+            vlan_list: 39
+          - service_name: S99
+            gemport_id: 3
+            vlan_mode: Tag # Tag/Untag
+            vlan_list: 99
+        service_port:
+          - service_mode: Cvlan
+            service_port_id: 1
+            gemport_id: 1
+            user_vlan: 29
+            translate_vlan: 110
+          - service_mode: Cvlan
+            service_port_id: 2
+            gemport_id: 2
+            user_vlan: 39
+            translate_vlan: 110
+          - service_mode: Cvlan
+            service_port_id: 3
+            gemport_id: 3
+            user_vlan: 99
+            translate_vlan: 110
+            
+    # delete_profile:
+    #   - profile_name: line_profile_one

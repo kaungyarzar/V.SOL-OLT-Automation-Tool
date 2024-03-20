@@ -1,0 +1,64 @@
+[tool.poetry]
+name = "volt-cli-tool"
+version = "0.1.0-b3"
+description = "VSOL OLT CLI Management Tool. Such as like creating profiles and other device settings by using YAML file. This project development was inspired by Ansible automation tool."
+authors = ["Kaung Yar Zar <kaung.yarzar@frontiir.net>"]
+readme = "README.md"
+packages = [{include = "volt_cli_tool", from= "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8.1,<4.0"
+pyyaml = "^6.0.1"
+click = "^8.1.7"
+pydantic = "^2.5.3"
+click-params = "^0.5.0"
+httpx = "^0.26.0"
+celery = "^5.3.6"
+structlog = "^24.1.0"
+
+[tool.poetry_bumpversion.file."src/volt_cli_tool/__init__.py"]
+search='__version__ = "{current_version}"'
+replace='__version__ = "{new_version}"'
+
+[tool.poetry_bumpversion.file."README.md"]
+search='version: {current_version}'
+replace='version: {new_version}'
+
+[tool.poetry_bumpversion.file."tests/test_version.py"]
+search='__version__ == "{current_version}"'
+replace='__version__ == "{new_version}"'
+
+[tool.poetry.scripts]
+volt-cli="volt_cli_tool.cli:entrypoint"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^6.2"
+black = "^22.12.0"
+devtools = "^0.10.0"
+flake8 = "^6.0.0"
+Flake8-pyproject = "^1.2.2"
+pytest-cov = "^4.0.0"
+pre-commit = "^2.20.0"
+isort = "^5.13.2"
+jinja2 = "^3.1.3"
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
+
+[tool.flake8]
+max-line-length = 88
+max-complexity = 18
+ignore = "E203, E266, E501, E503, C901"
+select = "B, C, E, F, W, T4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

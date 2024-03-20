@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+poetry run isort src tests
+poetry run black src tests
+poetry run flake8 src tests

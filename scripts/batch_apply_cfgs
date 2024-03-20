@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+if [ -z $1 ]; then
+    echo "Usage: ./$(basename $0) <directories | files> <mac address>"; exit 0
+fi
+
+args=("$@")
+num_args=${#args[@]}
+
+# mac get and convert to unix format.
+mac=${args[@]: -1}
+mac=${mac,,} # lower case
+mac=${mac//-/:} # replace '-' with ':'
+
+# validate mac address
+if [[ ! $mac =~ ^([0-9a-f]{2}:){5}[0-9a-f]{2}$ ]]; then 
+    echo "Invalid Mac Address.!!!"; exit 1
+fi 
+
+# create files array
+cfgfiles=
+for each in ${args[@]:0:$((num_args - 1))};
+do
+    if [ -f $each ]; then
+        cfgfiles+=($each)
+    elif [ -d $each ]; then
+        cfgfiles+=$(ls ${each}/* | sed 's/\/\//\//g')
+    else
+        echo "${each}: Invalid file or dir!"; exit 1
+    fi
+done
+
+# activate python env
+source .venv/bin/activate
+
+for cfgfile in ${cfgfiles[@]};
+do
+    # validating config file
+    echo "Checking... $cfgfile"
+    eval "volt-cli check-config $cfgfile" || continue
+
+    # Applying configs to device 
+    eval "volt-cli apply-config $cfgfile $mac"
+done
+
+# deactivae python env
+deactivate
